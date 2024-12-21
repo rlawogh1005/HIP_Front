@@ -158,4 +158,12 @@ export class ProjectService {
       { headers }
     );
   }
+  
+  getAllRegistration(projectId: number): Observable<ApiResponse<ProjectRegistrationResponseData[]>> {
+    const headers = this.getAuthHeaders();
+    return this.http.get<ApiResponse<ProjectRegistrationResponseData[]>>(
+      `${this.projectApiUrl}/${projectId}/projectRegistration`,
+      { headers }
+    );
+  }
 }
