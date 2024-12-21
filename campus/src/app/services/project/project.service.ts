@@ -166,4 +166,13 @@ export class ProjectService {
       { headers }
     );
   }
+
+  updateRegistration(projectId: number, registrationId: number, registrationData: ProjectRegistrationRequestData): Observable<ApiResponse<ProjectRegistrationResponseData>> {
+    const headers = this.getAuthHeaders();
+    return this.http.patch<ApiResponse<ProjectRegistrationResponseData>>(
+      `${this.projectApiUrl}/${projectId}/projectRegistration/${registrationId}`,
+      registrationData,
+      { headers }
+    );
+  }
 }
