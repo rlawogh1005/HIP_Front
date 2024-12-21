@@ -4,7 +4,11 @@ import { Observable } from "rxjs";
 import { ApiResponse } from "src/app/models/common/api-response.interface";
 import { FeedbackRequestData } from "src/app/models/project/feedback/feedback-request.interface";
 import { FeedbackResponseData } from "src/app/models/project/feedback/feedback-response.interface";
+import { ProjectDocRequestData } from "src/app/models/project/project_doc/project_doc-request.interface";
 import { ProjectDocResponseData } from "src/app/models/project/project_doc/project_doc-response.interface";
+import { ProjectRegistrationRequestData } from "src/app/models/project/project_registration/project_registration-request.interface";
+import { ProjectRegistrationResponseData } from "src/app/models/project/project_registration/project_registration-response.interface";
+import { CreateProjectRequest, UpdateProjectRequest } from "src/app/models/project/projects/projects-request.interface";
 import { ProjectResponseData } from "src/app/models/project/projects/projects-response.interface";
 
 @Injectable({
@@ -24,7 +28,7 @@ export class ProjectService {
   }
 
   // projects
-  createProject(projectData: Partial<ProjectResponseData>): Observable<ApiResponse<ProjectResponseData>> {
+  createProject(projectData: CreateProjectRequest): Observable<ApiResponse<ProjectResponseData>> {
     const headers = this.getAuthHeaders();
     return this.http.post<ApiResponse<ProjectResponseData>>(
       `${this.projectApiUrl}/register`,
@@ -50,7 +54,7 @@ export class ProjectService {
     );
   }
 
-  updateProject(id: number, projectData: any): Observable<ApiResponse<ProjectResponseData>> {
+  updateProject(id: number, projectData: UpdateProjectRequest): Observable<ApiResponse<ProjectResponseData>> {
     const headers = this.getAuthHeaders();
     return this.http.patch<ApiResponse<ProjectResponseData>>(
       `${this.projectApiUrl}/${id}/update`,
@@ -68,7 +72,7 @@ export class ProjectService {
   }
 
   // project_doc
-  createProjectDoc(projectId: number, projectDocData: any): Observable<ApiResponse<ProjectDocResponseData>> {
+  createProjectDoc(projectId: number, projectDocData: ProjectDocRequestData): Observable<ApiResponse<ProjectDocResponseData>> {
     const headers = this.getAuthHeaders();
     return this.http.post<ApiResponse<ProjectDocResponseData>>(
       `${this.projectApiUrl}/${projectId}/projectDocs/register`,
@@ -93,7 +97,7 @@ export class ProjectService {
     );
   }
 
-  updateProjectDoc(projectId: number, projectDocId: number, projectDocData: any): Observable<ApiResponse<ProjectDocResponseData>> {
+  updateProjectDoc(projectId: number, projectDocId: number, projectDocData: ProjectDocRequestData): Observable<ApiResponse<ProjectDocResponseData>> {
     const headers = this.getAuthHeaders();
     return this.http.put<ApiResponse<ProjectDocResponseData>>(
       `${this.projectApiUrl}/${projectId}/projectDocs/${projectDocId}/update`,
@@ -128,7 +132,7 @@ export class ProjectService {
     );
   }
 
-  updateFeedback(projectId: number, projectDocId: number, feedbackId: number, feedbackData: any): Observable<ApiResponse<FeedbackResponseData>> {
+  updateFeedback(projectId: number, projectDocId: number, feedbackId: number, feedbackData: FeedbackRequestData): Observable<ApiResponse<FeedbackResponseData>> {
     const headers = this.getAuthHeaders();
     return this.http.patch<ApiResponse<FeedbackResponseData>>(
       `${this.projectApiUrl}/${projectId}/projectDocs/${projectDocId}/feedback/${feedbackId}/update`,
@@ -141,6 +145,16 @@ export class ProjectService {
     const headers = this.getAuthHeaders();
     return this.http.delete<ApiResponse<FeedbackResponseData>>(
       `${this.projectApiUrl}/${projectId}/projectDocs/${projectDocId}/feedback/${feedbackId}/delete`,
+      { headers }
+    );
+  }
+
+  // project registration
+  joinProject(projectId: number, registrationData: ProjectRegistrationRequestData): Observable<ApiResponse<ProjectRegistrationResponseData>> {
+    const headers = this.getAuthHeaders();
+    return this.http.post<ApiResponse<ProjectRegistrationResponseData>>(
+      `${this.projectApiUrl}/${projectId}/projectRegistration/register`,
+      registrationData,
       { headers }
     );
   }
