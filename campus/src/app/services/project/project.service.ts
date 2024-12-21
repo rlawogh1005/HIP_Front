@@ -175,4 +175,12 @@ export class ProjectService {
       { headers }
     );
   }
+
+  cancelRegistration(projectId: number, registrationId: number): Observable<ApiResponse<ProjectRegistrationResponseData>> {
+    const headers = this.getAuthHeaders();
+    return this.http.delete<ApiResponse<ProjectRegistrationResponseData>>(
+      `${this.projectApiUrl}/${projectId}/projectRegistration/${registrationId}`,
+      { headers }
+    );
+  }
 }
