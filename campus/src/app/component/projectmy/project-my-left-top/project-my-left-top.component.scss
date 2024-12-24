@@ -1,0 +1,46 @@
+.left-top-container {
+    width: 100%;
+    padding: 1rem;
+    box-sizing: border-box;
+  
+    .project-info {
+      margin-bottom: 1.5rem;
+  
+      .team-name {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: #3d3d3d;
+        margin-bottom: 0.25rem;
+      }
+  
+      .project-title {
+        font-size: 1rem;
+        color: #666;
+      }
+    }
+  
+    .tabs {
+      display: flex;
+      gap: 1rem;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+  
+      .tab-item {
+        padding: 0.5rem 1rem;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background-color 0.2s;
+  
+        &.active {
+          color: #fff;
+          background-color: #7a67ee; // 예시 컬러
+        }
+  
+        &:hover {
+          background-color: #eaeaea;
+        }
+      }
+    }
+  }
+  
