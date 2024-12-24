@@ -26,7 +26,7 @@ export class ProjectService {
       'Content-Type': 'application/json'
     };
   }
-
+  // getFirstDocTitle, getDocTitle, createDocTitle, deleteDocTitle
   // projects
   createProject(projectData: CreateProjectRequest): Observable<ApiResponse<ProjectResponseData>> {
     const headers = this.getAuthHeaders();
@@ -131,6 +131,43 @@ export class ProjectService {
       { headers }
     );
   }
+
+  // project_doc_title
+  createDocTitle(projectId: number, docTitleData: ProjectDocRequestData): Observable<ApiResponse<ProjectDocResponseData>> {
+    const headers = this.getAuthHeaders();
+    return this.http.post<ApiResponse<ProjectDocResponseData>>(
+      `${this.projectApiUrl}/${projectId}/projectDocs/register`,
+      docTitleData,
+      { headers }
+    );
+  }
+
+  getFirstDocTitle(projectId: number): Observable<ApiResponse<ProjectDocResponseData>> {
+    const headers = this.getAuthHeaders();
+    return this.http.get<ApiResponse<ProjectDocResponseData>>(
+      `${this.projectApiUrl}/${projectId}/projectDocs`,
+      { headers }
+    );
+  }
+
+  getDocTitle(projectId: number, docTitleId: number): Observable<ApiResponse<ProjectDocResponseData>> {
+    const headers = this.getAuthHeaders();
+    return this.http.get<ApiResponse<ProjectDocResponseData>>(
+      `${this.projectApiUrl}/${projectId}/projectDocs/${docTitleId}`,
+      { headers }
+    );
+  }
+
+  deleteDocTitle(projectId: number, docTitleId: number): Observable<ApiResponse<ProjectDocResponseData>> {
+    const headers = this.getAuthHeaders();
+    return this.http.delete<ApiResponse<ProjectDocResponseData>>(
+      `${this.projectApiUrl}/${projectId}/projectDocs/${docTitleId}/delete`,
+      { headers }
+    );
+  }
+
+
+
 
   updateFeedback(projectId: number, projectDocId: number, feedbackId: number, feedbackData: FeedbackRequestData): Observable<ApiResponse<FeedbackResponseData>> {
     const headers = this.getAuthHeaders();
