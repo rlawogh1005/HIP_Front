@@ -1,4 +1,4 @@
 export interface ProjectDocRequestData {
-    project_doc_title?: string;
+    title?: string;
     description?: string;
 }
