@@ -28,26 +28,32 @@ const routes: Routes = [
   },
   {
     path: 'main',
-    loadChildren: () => import('./page/mainpage/firstpage/firstpage.module').then(m => m.FirstpagePageModule)
+    loadChildren: () => import('./page/mainpage/firstpage/firstpage.module')
+    .then(m => m.FirstpagePageModule)
   },
   {
     path: 'exhibitionmain',
-    loadChildren: () => import('./page/exhibitionpage/exhibitionmain/exhibitionmain.module').then(m => m.ExhibitionmainPageModule)
+    loadChildren: () => import('./page/exhibitionpage/exhibitionmain/exhibitionmain.module')
+    .then(m => m.ExhibitionmainPageModule)
   },
   {
     path: 'loginpage',
-    loadChildren: () => import('./page/mainpage/loginpage/loginpage.module').then(m => m.LoginpagePageModule)
+    loadChildren: () => import('./page/mainpage/loginpage/loginpage.module')
+    .then(m => m.LoginpagePageModule)
   },
   {
     path: 'joinpage',
-    loadChildren: () => import('./page/mainpage/joinpage/joinpage.module').then(m => m.JoinpagePageModule)
+    loadChildren: () => import('./page/mainpage/joinpage/joinpage.module')
+    .then(m => m.JoinpagePageModule)
   },
   {
     path: 'exhibition-details',
-    loadChildren: () => import('./page/exhibitionpage/exhibition-details/exhibition-details.module').then(m => m.ExhibitionDetailsPageModule)
+    loadChildren: () => import('./page/exhibitionpage/exhibition-details/exhibition-details.module')
+    .then(m => m.ExhibitionDetailsPageModule)
   },
   {
-    path: 'exhibition/:id', loadChildren: () => import('./page/exhibitionpage/exhibition-details/exhibition-details.module').then(m => m.ExhibitionDetailsPageModule)
+    path: 'exhibition/:id', loadChildren: () => import('./page/exhibitionpage/exhibition-details/exhibition-details.module')
+    .then(m => m.ExhibitionDetailsPageModule)
   },
   // 사이드 메뉴 경로
   {
@@ -60,7 +66,8 @@ const routes: Routes = [
   // },
   {
     path: 'exhibitioncreate',
-    loadChildren: () => import('./page/exhibitionpage/exhibitioncreate/exhibitioncreate.module').then(m => m.ExhibitioncreatePageModule)
+    loadChildren: () => import('./page/exhibitionpage/exhibitioncreate/exhibitioncreate.module')
+    .then(m => m.ExhibitioncreatePageModule)
   },
   {
     path: 'classsignup',
@@ -84,25 +91,35 @@ const routes: Routes = [
   },
   {
     path: 'projectsearch',
-    loadChildren: () => import('./page/studyroompage/projectsearch/projectsearch.module').then(m => m.ProjectsearchPageModule)
+    loadChildren: () => import('./page/studyroompage/projectsearch/projectsearch.module')
+    .then(m => m.ProjectsearchPageModule)
   },
   {
-    path: 'projectmy',
-    loadChildren: () => import('./page/studyroompage/projectmy/projectmy.module').then(m => m.ProjectmyPageModule)
+    path: 'projectmy/:project_id',
+    loadChildren: () => import('./page/studyroompage/projectmy/projectmy.module')
+    .then(m => m.ProjectmyPageModule)
+  },
+  {
+    path: 'project-list',
+    loadChildren: () => import('./page/studyroompage/project-list/project-list.module')
+    .then( m => m.ProjectListPageModule)
   },
   {
     path: 'introduce-metaverse',
-    loadChildren: () => import('./page/mainpage/introduce-metaverse/introduce-metaverse.module').then(m => m.IntroduceMetaversePageModule)
+    loadChildren: () => import('./page/mainpage/introduce-metaverse/introduce-metaverse.module')
+    .then(m => m.IntroduceMetaversePageModule)
   },
   {
     path: 'exhibition-update',
-    loadChildren: () => import('./page/exhibitionpage/exhibition-update/exhibition-update.module').then( m => m.ExhibitionUpdatePageModule)
+    loadChildren: () => import('./page/exhibitionpage/exhibition-update/exhibition-update.module')
+    .then( m => m.ExhibitionUpdatePageModule)
   },
 
   { path: 'auth/kakao/callback', component: LoginpagePage },
   {
     path: 'video-stream',
-    loadComponent: () => import('./component/video-stream/video-stream.component').then(m => m.VideoStreamComponent)
+    loadComponent: () => import('./component/video-stream/video-stream.component')
+    .then(m => m.VideoStreamComponent)
   },
   {
     path: 'classmy/:course_id/doc-topics',
@@ -114,9 +131,14 @@ const routes: Routes = [
   },
   {
     path: 'registration-admin',
-    loadChildren: () => import('./page/studyroompage/registration-admin/registration-admin.module').then(m => m.RegistrationAdminPageModule)
+    loadChildren: () => import('./page/studyroompage/registration-admin/registration-admin.module')
+    .then(m => m.RegistrationAdminPageModule)
   },
-  { path: '**', redirectTo: '/main' } // 정의되지 않은 경로는 main으로 라우팅
+  { 
+    path: '**', 
+    redirectTo: '/main'
+  },
+// 정의되지 않은 경로는 main으로 라우팅
 ];
 @NgModule({
   imports: [
