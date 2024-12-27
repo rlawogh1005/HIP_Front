@@ -122,7 +122,7 @@ export class ProjectService {
   ): Observable<ApiResponse<ProjectDocTitleResponseData>> {
     const headers = this.getAuthHeaders();
     return this.http.delete<ApiResponse<ProjectDocTitleResponseData>>(
-      `${this.projectApiUrl}/${projectId}/projectDocs/${docTitleId}/delete`,
+      `${this.projectApiUrl}/${projectId}/projectDocs/${docTitleId}`,
       { headers }
     );
   }
