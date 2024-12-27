@@ -9,6 +9,10 @@ export class ProjectMyRightComponent  implements OnInit {
 
   constructor() { }
 
+  refreshPage() {
+    window.location.reload();
+  }
+  
   ngOnInit() {}
 
 }
