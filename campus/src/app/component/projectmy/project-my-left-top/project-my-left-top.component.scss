@@ -21,6 +21,7 @@
   
     .tabs {
       display: flex;
+      justify-content: space-between;
       gap: 1rem;
       list-style: none;
       padding: 0;
@@ -31,7 +32,6 @@
         border-radius: 8px;
         cursor: pointer;
         transition: background-color 0.2s;
-  
         &.active {
           color: #fff;
           background-color: #7a67ee; // 예시 컬러
