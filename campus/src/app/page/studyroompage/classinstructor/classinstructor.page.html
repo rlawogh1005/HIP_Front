@@ -11,7 +11,6 @@
           <h2>{{ course.course_title }}</h2>
           <p>{{ course.description }}</p>
           <p>강사: {{ course.instructor_name }} | {{ course.generation }}</p>
-          <p *ngIf="course.course_notice">공지: {{ course.course_notice }}</p>
         </ion-label>
         <ion-button slot="end" (click)="enterCourse(course.course_id)">
           진입

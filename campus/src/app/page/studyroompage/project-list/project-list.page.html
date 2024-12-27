@@ -1,0 +1,24 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>프로젝트 목록</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item *ngFor="let project of projectsList">
+      <ion-label>
+        <h2>{{ project.team_name }}</h2>
+        <p>{{ project.topic }}</p>
+        <p>분반: {{ project.className }}</p>
+      </ion-label>
+      <ion-button slot="end" (click)="enterProject(project.project_id)">
+        진입
+      </ion-button>
+    </ion-item>
+  </ion-list>
+
+  <ion-text *ngIf="projectsList.length === 0" class="ion-text-center">
+    <p>진행 중인 프로젝트가 없습니다.</p>
+  </ion-text>
+</ion-content>

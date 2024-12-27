@@ -37,6 +37,10 @@ export class ProjectmyPage implements OnInit {
     private router: Router
   ) {}
 
+  refreshPage() {
+    window.location.reload();
+  }
+
   ngOnInit() {
     // URL 경로에서 project_id 파라미터를 가져와 저장
     this.route.paramMap.subscribe(params => {
@@ -88,7 +92,7 @@ export class ProjectmyPage implements OnInit {
     async getProjectDetails() {
       try {
         const response: ApiResponse<ProjectResponseData> = await firstValueFrom(
-          this.projectService.getProjectById(this.project_id)
+          this.projectService.getOneProject(this.project_id)
         );
   
         // 단일 프로젝트 데이터를 data 객체에 저장
@@ -119,6 +123,7 @@ export class ProjectmyPage implements OnInit {
       } catch (error) {
         console.error('프로젝트 생성 중 오류 발생', error);
       }
+      this.refreshPage();
     }
   
     // 프로젝트 상태 업데이트 메서드

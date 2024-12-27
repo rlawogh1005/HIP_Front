@@ -5,7 +5,7 @@ import { ProjectmyPage } from './projectmy.page';
 
 const routes: Routes = [
   {
-    path: '', //:project_id
+    path: '',
     component: ProjectmyPage
   }
 ];

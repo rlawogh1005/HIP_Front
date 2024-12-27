@@ -123,7 +123,7 @@ export class ProjectMyLeftBottomComponent implements OnInit {
       if (response.data) {
         // 현재 폴더 정보 저장
         this.currentFolder = {
-          project_doc_id: response.data.project_doc_id,
+          project_doc_title_id: response.data.project_doc_title_id,
           title: response.data.title,
           pa_title_id: response.data.pa_title_id,
           project_docs: response.data.project_docs,
@@ -148,11 +148,11 @@ export class ProjectMyLeftBottomComponent implements OnInit {
   // loadSubFolders 메서드를 호출하여 하위 폴더 로드
   openFolder(folder: ProjectDocTitleResponseData) {
     // 현재 폴더를 새로운 상위 폴더로 설정하고 해당 폴더의 하위 폴더를 로드
-    this.currentTopicId = folder.project_doc_id;
+    this.currentTopicId = folder.project_doc_title_id;
     
-    this.loadSubFolders(folder.project_doc_id).then(() => {
+    this.loadSubFolders(folder.project_doc_title_id).then(() => {
       // 데이터 로드 후 URL 변경
-      this.router.navigate([`/projectmy/${this.project_id}/project-title/${folder.project_doc_id}`]);
+      this.router.navigate([`/projectmy/${this.project_id}/project-title/${folder.project_doc_title_id}`]);
     });
   }
 
@@ -204,6 +204,7 @@ export class ProjectMyLeftBottomComponent implements OnInit {
 
       this.newTopicTitle = '';
       this.showNewTopicForm = false;
+      this.refreshPage();
     } catch (error) {
       console.error('폴더 생성 중 오류 발생:', error);
     }
@@ -211,21 +212,31 @@ export class ProjectMyLeftBottomComponent implements OnInit {
 
   // 폴더 삭제
   async deleteDoc(titleId: number) {
-    const confirmed = confirm('이 폴더를 삭제하시겠습니까?');
-    if (!confirmed) return;
-
-    try {
-      await firstValueFrom(this.projectService.deleteDocTitle(this.project_id, titleId));
-      if (this.currentFolder) {
-        this.subFolders = this.subFolders.filter(folder => folder.project_doc_id !== titleId);
-      } else {
-        this.topLevelFolders = this.topLevelFolders.filter(folder => folder.project_doc_id !== titleId);
-      }
-      this.router.navigate([`/projectmy/${this.project_id}/doc-topics/${titleId}`]);
-    } catch (error) {
-      console.error('폴더 삭제 중 오류 발생:', error);
-    }
+  console.log('Title ID to delete:', titleId); // 디버깅 로그 추가
+  if (!titleId) {
+    console.error('Invalid Title ID:', titleId);
+    return;
   }
+
+  const confirmed = confirm('이 폴더를 삭제하시겠습니까?');
+  if (!confirmed) return;
+
+  try {
+    console.log('Calling deleteDocTitle with:', this.project_id, titleId);
+    await firstValueFrom(this.projectService.deleteDocTitle(this.project_id, titleId));
+    console.log('folder deleted successfully'); // 성공 로그
+
+    if (this.currentFolder) {
+      this.subFolders = this.subFolders.filter(folder => folder.project_doc_title_id !== titleId);
+    } else {
+      this.topLevelFolders = this.topLevelFolders.filter(folder => folder.project_doc_title_id !== titleId); 
+    }
+    this.refreshPage();
+  } catch (error) {
+    console.error('폴더 삭제 중 오류 발생:', error);
+  }
+}
+
 
   // 폴더 삭제 재확인 Alert 표시
   async confirmDeletion(titleId: number) {
