@@ -49,7 +49,7 @@ export class ProjectService {
   }
 
   // 단일 프로젝트 가져오기
-  getProjectById(
+  getOneProject(
     id: number
   ): Observable<ApiResponse<ProjectResponseData>> {
     const headers = this.getAuthHeaders();
@@ -100,7 +100,7 @@ export class ProjectService {
   ): Observable<ApiResponse<ProjectDocTitleResponseData>> {
     const headers = this.getAuthHeaders();
     return this.http.get<ApiResponse<ProjectDocTitleResponseData>>(
-      `${this.projectApiUrl}/${projectId}/projectDocs`,
+      `${this.projectApiUrl}/${projectId}/projectDocs/root`,
       { headers }
     );
   }
