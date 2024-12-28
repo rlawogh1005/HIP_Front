@@ -130,7 +130,7 @@ export class ProjectMyLeftBottomComponent implements OnInit {
           sub_titles: response.data.sub_titles
         };
         
-        // 현재 선택된 topic_id를 pa_topic_id로 가지는 폴더들만 필터링
+        // 현재 선택된 title_id를 pa_title_id로 가지는 폴더들만 필터링
         this.subFolders = response.data.sub_titles
           ? response.data.sub_titles.filter(title => title.pa_title_id === titleId)
           : [];
