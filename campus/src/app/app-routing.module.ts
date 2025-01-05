@@ -135,7 +135,7 @@ const routes: Routes = [
     .then(m => m.ProjectmyPageModule)
   },
   {
-    path: 'projectmy/:project_id/project-title/:titleId',
+    path: 'projectmy/:project_id/project-title/:project_doc_title_id',
     loadChildren: () => import('./page/studyroompage/projectmy/projectmy.module')
     .then(m => m.ProjectmyPageModule)
   },
