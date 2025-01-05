@@ -69,8 +69,9 @@ export class ProjectMyLeftBottomComponent implements OnInit {
     // URL 파라미터 변경 감지
     this.route.params.subscribe(async params => {
       this.project_id = params['project_id'];
+      this.project_id = Number(this.project_id);
       const proejctDocTitleId = params['project_doc_title_id'];
-      
+      console.log('proejctDocTitleId:', proejctDocTitleId);
       if (proejctDocTitleId) {
         console.log('ProjectDocTitleId detected:', proejctDocTitleId);  // project_doc_title_id 확인
         // 특정 폴더 보기
@@ -95,6 +96,7 @@ export class ProjectMyLeftBottomComponent implements OnInit {
   // 시작 시 루트 폴더 로드
   async loadRootFolders() {
     this.isLoading = true;
+    this.project_id = Number(this.project_id);
     try {
       const response = await firstValueFrom(
         this.projectService.getFirstProjectDocTitle(this.project_id)
