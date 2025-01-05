@@ -8,6 +8,7 @@ import { ProjectmyPage } from './projectmy.page';
 import { ProjectMyLeftTopComponent } from '../../../component/projectmy/project-my-left-top/project-my-left-top.component';
 import { ProjectMyLeftBottomComponent } from '../../../component/projectmy/project-my-left-bottom/project-my-left-bottom.component';
 import { ProjectMyRightComponent } from '../../../component/projectmy/project-my-right/project-my-right.component';
+import { ProjectMyLeftBottomModule } from 'src/app/component/projectmy/project-my-left-bottom/project-my-left-bottom.module';
 
 @NgModule({
   imports: [
@@ -16,11 +17,11 @@ import { ProjectMyRightComponent } from '../../../component/projectmy/project-my
     IonicModule,
     ProjectmyPageRoutingModule,
     SidemenuComponent,
+    ProjectMyLeftBottomModule
   ],
   declarations: [
     ProjectmyPage,
     ProjectMyLeftTopComponent,
-    ProjectMyLeftBottomComponent,
     ProjectMyRightComponent
   ]
 })

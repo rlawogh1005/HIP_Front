@@ -16,12 +16,12 @@ export class ProjectMyLeftBottomComponent implements OnInit {
   topLevelFolders: ProjectDocTitleResponseData[] = [];
   subFolders: ProjectDocTitleResponseData[] = [];
   currentFolder: ProjectDocTitleResponseData | null = null;
-  showNewTopicForm: boolean = false;
-  newTopicTitle: string = ''; 
+  showNewProjectDocTitleForm: boolean = false;
+  newProjectDocTitle: string = ''; 
   isInputValid: boolean = false;
   isLoading = false;
   errorMessage: string | null = null;
-  currentTopicId: number | null = null;
+  currentProjectDocTitleId: number | null = null;
   folderHistory: number[] = [];
   private routerSubscription: Subscription | null = null;
   
@@ -40,7 +40,7 @@ export class ProjectMyLeftBottomComponent implements OnInit {
   }
 
   // 프로젝트의 문서 페이지로 이동 
-  docTopicPage() {
+  projectDocTitlePage() {
     this.router.navigate([`/projectmy/${this.project_id}/project-title`]);
   }
 
@@ -69,18 +69,19 @@ export class ProjectMyLeftBottomComponent implements OnInit {
     // URL 파라미터 변경 감지
     this.route.params.subscribe(async params => {
       this.project_id = params['project_id'];
-      const topicId = params['topicId'];
-      
-      if (topicId) {
-        console.log('Topic ID detected:', topicId);  // topic_id 확인
+      this.project_id = Number(this.project_id);
+      const proejctDocTitleId = params['project_doc_title_id'];
+      console.log('proejctDocTitleId:', proejctDocTitleId);
+      if (proejctDocTitleId) {
+        console.log('ProjectDocTitleId detected:', proejctDocTitleId);  // project_doc_title_id 확인
         // 특정 폴더 보기
-        await this.loadSubFolders(+topicId);
-        this.currentTopicId = +topicId;
+        await this.loadSubFolders(proejctDocTitleId);
+        this.currentProjectDocTitleId = proejctDocTitleId;
       } else {
         console.log('Loading root folders');  // root 폴더 로딩 확인
         // 루트 폴더 보기
         await this.loadRootFolders();
-        this.currentTopicId = null;
+        this.currentProjectDocTitleId = null;
       }
     });
   }
@@ -95,11 +96,12 @@ export class ProjectMyLeftBottomComponent implements OnInit {
   // 시작 시 루트 폴더 로드
   async loadRootFolders() {
     this.isLoading = true;
+    this.project_id = Number(this.project_id);
     try {
       const response = await firstValueFrom(
-        this.projectService.getFirstDocTitle(this.project_id)
+        this.projectService.getFirstProjectDocTitle(this.project_id)
       );
-      if (response.data.pa_title_id) {
+      if (response.data.project_doc_pa_title_id) {
         // 만약 pa_title_id가 있다면 (유효성 검사)
       }
       this.topLevelFolders = Array.isArray(response.data) 
@@ -117,25 +119,25 @@ export class ProjectMyLeftBottomComponent implements OnInit {
     this.isLoading = true;
     try {
       const response = await firstValueFrom(
-        this.projectService.getDocTitle(this.project_id, titleId)
+        this.projectService.getProjectDocTitle(this.project_id, titleId)
       );
       
       if (response.data) {
         // 현재 폴더 정보 저장
         this.currentFolder = {
           project_doc_title_id: response.data.project_doc_title_id,
-          title: response.data.title,
-          pa_title_id: response.data.pa_title_id,
+          project_doc_title: response.data.project_doc_title,
+          project_doc_pa_title_id: response.data.project_doc_pa_title_id,
           project_docs: response.data.project_docs,
           sub_titles: response.data.sub_titles
         };
         
-        // 현재 선택된 topic_id를 pa_topic_id로 가지는 폴더들만 필터링
+        // 현재 선택된 title_id를 pa_title_id로 가지는 폴더들만 필터링
         this.subFolders = response.data.sub_titles
-          ? response.data.sub_titles.filter(title => title.pa_title_id === titleId)
+          ? response.data.sub_titles.filter(title => title.project_doc_pa_title_id === titleId)
           : [];
           
-        this.currentTopicId = titleId;
+        this.currentProjectDocTitleId = titleId;
       }
     } catch (error) {
       console.error('하위 폴더 로드 에러:', error);
@@ -148,7 +150,7 @@ export class ProjectMyLeftBottomComponent implements OnInit {
   // loadSubFolders 메서드를 호출하여 하위 폴더 로드
   openFolder(folder: ProjectDocTitleResponseData) {
     // 현재 폴더를 새로운 상위 폴더로 설정하고 해당 폴더의 하위 폴더를 로드
-    this.currentTopicId = folder.project_doc_title_id;
+    this.currentProjectDocTitleId = folder.project_doc_title_id;
     
     this.loadSubFolders(folder.project_doc_title_id).then(() => {
       // 데이터 로드 후 URL 변경
@@ -158,41 +160,42 @@ export class ProjectMyLeftBottomComponent implements OnInit {
 
   // 상위 폴더로 이동 
   async closeFolder() {
-    if (this.currentFolder?.pa_title_id) {
+    if (this.currentFolder?.project_doc_pa_title_id) {
       // 상위 폴더가 있는 경우
-      await this.loadSubFolders(this.currentFolder.pa_title_id);
-      this.router.navigate([`/projectmy/${this.project_id}/project-title/${this.currentFolder.pa_title_id}`]);
+      await this.loadSubFolders(this.currentFolder.project_doc_pa_title_id);
+      this.router.navigate([`/projectmy/${this.project_id}/project-title/${this.currentFolder.project_doc_pa_title_id}`]);
     } else {
       // 루트로 이동
       await this.loadRootFolders();
-      this.currentTopicId = null;
+      this.currentProjectDocTitleId = null;
       this.router.navigate([`/projectmy/${this.project_id}/project-title`]);
     }
   }
 
   // 새 폴더 추가 폼 표시
   showAddTitleForm() {
-    this.showNewTopicForm = true;
-    this.newTopicTitle = '';
+    this.showNewProjectDocTitleForm = true;
+    this.newProjectDocTitle = '';
     this.isInputValid = false;
   }
 
   // 폴더 이름 입력 유효성 검사
   validateInput() {
-    this.isInputValid = this.newTopicTitle.trim() !== '';
+    this.isInputValid = this.newProjectDocTitle.trim() !== '';
   }
 
   // 새 폴더 생성
   async createTitle() {
     if (!this.isInputValid) return;
 
-    const docTitleData = {
-      title: this.newTopicTitle
+    const ProjectDocTitleData = {
+      project_doc_title: this.newProjectDocTitle,
+      project_doc_pa_title_id: this.currentProjectDocTitleId || undefined
     };
 
     try {
       const response: ApiResponse<ProjectDocTitleResponseData> = await firstValueFrom(
-        this.projectService.createDocTitle(this.project_id, docTitleData)
+        this.projectService.createProjectDocTitle(this.project_id, ProjectDocTitleData)
       );
       console.log('폴더가 성공적으로 생성되었습니다:', response);
 
@@ -202,8 +205,8 @@ export class ProjectMyLeftBottomComponent implements OnInit {
         this.topLevelFolders.push(response.data);
       }
 
-      this.newTopicTitle = '';
-      this.showNewTopicForm = false;
+      this.newProjectDocTitle = '';
+      this.showNewProjectDocTitleForm = false;
       this.refreshPage();
     } catch (error) {
       console.error('폴더 생성 중 오류 발생:', error);
@@ -223,7 +226,7 @@ export class ProjectMyLeftBottomComponent implements OnInit {
 
   try {
     console.log('Calling deleteDocTitle with:', this.project_id, titleId);
-    await firstValueFrom(this.projectService.deleteDocTitle(this.project_id, titleId));
+    await firstValueFrom(this.projectService.deleteProjectDocTitle(this.project_id, titleId));
     console.log('folder deleted successfully'); // 성공 로그
 
     if (this.currentFolder) {

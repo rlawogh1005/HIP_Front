@@ -2,8 +2,8 @@ import { ProjectDocResponseData } from "../project_doc/project_doc-response.inte
 
 export interface ProjectDocTitleResponseData {
     project_doc_title_id: number;
-    title: string;
-    pa_title_id: number;
+    project_doc_title: string;
+    project_doc_pa_title_id: number;
     project_docs: ProjectDocResponseData[];
     sub_titles: ProjectDocTitleResponseData[];
 }
