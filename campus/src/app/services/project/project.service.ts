@@ -108,11 +108,11 @@ export class ProjectService {
 
   getProjectDocTitle(
     projectId: number, 
-    docTitleId: number
+    projectDocTitleId: number
   ): Observable<ApiResponse<ProjectDocTitleResponseData>> {
     const headers = this.getAuthHeaders();
     return this.http.get<ApiResponse<ProjectDocTitleResponseData>>(
-      `${this.projectApiUrl}/${projectId}/projectDocs/${docTitleId}`,
+      `${this.projectApiUrl}/${projectId}/projectDocs/${projectDocTitleId}`,
       { headers }
     );
   }
