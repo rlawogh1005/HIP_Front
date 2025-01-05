@@ -70,7 +70,7 @@ export class ProjectMyLeftBottomComponent implements OnInit {
     this.route.params.subscribe(async params => {
       this.project_id = params['project_id'];
       this.project_id = Number(this.project_id);
-      const proejctDocTitleId = params['project_doc_title_id'];
+      const proejctDocTitleId = Number(params['project_doc_title_id']);
       console.log('proejctDocTitleId:', proejctDocTitleId);
       if (proejctDocTitleId) {
         console.log('ProjectDocTitleId detected:', proejctDocTitleId);  // project_doc_title_id 확인
@@ -168,7 +168,7 @@ export class ProjectMyLeftBottomComponent implements OnInit {
       // 루트로 이동
       await this.loadRootFolders();
       this.currentProjectDocTitleId = null;
-      this.router.navigate([`/projectmy/${this.project_id}/project-title`]);
+      this.router.navigate([`/projectmy/${this.project_id}`]);
     }
   }
 
