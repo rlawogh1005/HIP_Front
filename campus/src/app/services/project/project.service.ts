@@ -6,6 +6,7 @@ import { FeedbackRequestData } from "src/app/models/project/feedback/feedback-re
 import { FeedbackResponseData } from "src/app/models/project/feedback/feedback-response.interface";
 import { ProjectDocRequestData } from "src/app/models/project/project_doc/project_doc-request.interface";
 import { ProjectDocResponseData } from "src/app/models/project/project_doc/project_doc-response.interface";
+import { ProjectDocTitleRequestData } from "src/app/models/project/project_doc_title/project_doc_title-request.interface";
 import { ProjectDocTitleResponseData } from "src/app/models/project/project_doc_title/project_doc_title-response.interface";
 import { ProjectRegistrationRequestData } from "src/app/models/project/project_registration/project_registration-request.interface";
 import { ProjectRegistrationResponseData } from "src/app/models/project/project_registration/project_registration-response.interface";
@@ -83,19 +84,19 @@ export class ProjectService {
 
   // 2
   // project_doc_title
-  createDocTitle(
+  createProjectDocTitle(
     projectId: number, 
-    docTitleData: ProjectDocRequestData
+    projectDocTitleData: ProjectDocTitleRequestData
   ): Observable<ApiResponse<ProjectDocTitleResponseData>> {
     const headers = this.getAuthHeaders();
     return this.http.post<ApiResponse<ProjectDocTitleResponseData>>(
       `${this.projectApiUrl}/${projectId}/projectDocs/register`,
-      docTitleData,
+      projectDocTitleData,
       { headers }
     );
   }
 
-  getFirstDocTitle(
+  getFirstProjectDocTitle(
     projectId: number
   ): Observable<ApiResponse<ProjectDocTitleResponseData>> {
     const headers = this.getAuthHeaders();
@@ -105,7 +106,7 @@ export class ProjectService {
     );
   }
 
-  getDocTitle(
+  getProjectDocTitle(
     projectId: number, 
     docTitleId: number
   ): Observable<ApiResponse<ProjectDocTitleResponseData>> {
@@ -116,7 +117,7 @@ export class ProjectService {
     );
   }
 
-  deleteDocTitle(
+  deleteProjectDocTitle(
     projectId: number, 
     docTitleId: number
   ): Observable<ApiResponse<ProjectDocTitleResponseData>> {
