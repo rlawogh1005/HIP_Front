@@ -90,21 +90,6 @@ const routes: Routes = [
       .then(m => m.ClassinstructorPageModule),
   },
   {
-    path: 'projectsearch',
-    loadChildren: () => import('./page/studyroompage/projectsearch/projectsearch.module')
-    .then(m => m.ProjectsearchPageModule)
-  },
-  {
-    path: 'projectmy/:project_id',
-    loadChildren: () => import('./page/studyroompage/projectmy/projectmy.module')
-    .then(m => m.ProjectmyPageModule)
-  },
-  {
-    path: 'project-list',
-    loadChildren: () => import('./page/studyroompage/project-list/project-list.module')
-    .then( m => m.ProjectListPageModule)
-  },
-  {
     path: 'introduce-metaverse',
     loadChildren: () => import('./page/mainpage/introduce-metaverse/introduce-metaverse.module')
     .then(m => m.IntroduceMetaversePageModule)
@@ -133,6 +118,26 @@ const routes: Routes = [
     path: 'registration-admin',
     loadChildren: () => import('./page/studyroompage/registration-admin/registration-admin.module')
     .then(m => m.RegistrationAdminPageModule)
+  },
+  {
+    path: 'project-list',
+    loadChildren: () => import('./page/studyroompage/project-list/project-list.module')
+    .then( m => m.ProjectListPageModule)
+  },
+  {
+    path: 'projectsearch',
+    loadChildren: () => import('./page/studyroompage/projectsearch/projectsearch.module')
+    .then(m => m.ProjectsearchPageModule)
+  },
+  {
+    path: 'projectmy/:project_id',
+    loadChildren: () => import('./page/studyroompage/projectmy/projectmy.module')
+    .then(m => m.ProjectmyPageModule)
+  },
+  {
+    path: 'projectmy/:project_id/project-title/:titleId',
+    loadChildren: () => import('./page/studyroompage/projectmy/projectmy.module')
+    .then(m => m.ProjectmyPageModule)
   },
   { 
     path: '**', 
