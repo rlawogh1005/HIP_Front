@@ -70,7 +70,7 @@ export class ProjectMyLeftBottomComponent implements OnInit {
     this.route.params.subscribe(async params => {
       this.project_id = params['project_id'];
       this.project_id = Number(this.project_id);
-      const proejctDocTitleId = params['project_doc_title_id'];
+      const proejctDocTitleId = Number(params['project_doc_title_id']);
       console.log('proejctDocTitleId:', proejctDocTitleId);
       if (proejctDocTitleId) {
         console.log('ProjectDocTitleId detected:', proejctDocTitleId);  // project_doc_title_id 확인
@@ -101,8 +101,8 @@ export class ProjectMyLeftBottomComponent implements OnInit {
       const response = await firstValueFrom(
         this.projectService.getFirstProjectDocTitle(this.project_id)
       );
-      if (response.data.project_doc_pa_title_id) {
-        // 만약 pa_title_id가 있다면 (유효성 검사)
+      if (response.data.project_doc_title_pa_id) {
+        // 만약 title_pa_id가 있다면 (유효성 검사)
       }
       this.topLevelFolders = Array.isArray(response.data) 
         ? response.data 
@@ -127,14 +127,14 @@ export class ProjectMyLeftBottomComponent implements OnInit {
         this.currentFolder = {
           project_doc_title_id: response.data.project_doc_title_id,
           project_doc_title: response.data.project_doc_title,
-          project_doc_pa_title_id: response.data.project_doc_pa_title_id,
+          project_doc_title_pa_id: response.data.project_doc_title_pa_id,
           project_docs: response.data.project_docs,
           sub_titles: response.data.sub_titles
         };
-        
-        // 현재 선택된 title_id를 pa_title_id로 가지는 폴더들만 필터링
+        console.log('currentFolder:', this.currentFolder);  // 현재 폴더 정보 확인
+        // 현재 선택된 title_id를 title_pa_id로 가지는 폴더들만 필터링
         this.subFolders = response.data.sub_titles
-          ? response.data.sub_titles.filter(title => title.project_doc_pa_title_id === titleId)
+          ? response.data.sub_titles.filter(title => Number(title.project_doc_title_pa_id) === Number(titleId))
           : [];
           
         this.currentProjectDocTitleId = titleId;
@@ -160,15 +160,16 @@ export class ProjectMyLeftBottomComponent implements OnInit {
 
   // 상위 폴더로 이동 
   async closeFolder() {
-    if (this.currentFolder?.project_doc_pa_title_id) {
+    if (this.currentFolder?.project_doc_title_pa_id) {
       // 상위 폴더가 있는 경우
-      await this.loadSubFolders(this.currentFolder.project_doc_pa_title_id);
-      this.router.navigate([`/projectmy/${this.project_id}/project-title/${this.currentFolder.project_doc_pa_title_id}`]);
+      console.log('여기',this.currentFolder.project_doc_title_id);
+      await this.loadSubFolders(this.currentFolder.project_doc_title_pa_id);
+      this.router.navigate([`/projectmy/${this.project_id}/project-title/${this.currentFolder.project_doc_title_id}`]);
     } else {
       // 루트로 이동
       await this.loadRootFolders();
       this.currentProjectDocTitleId = null;
-      this.router.navigate([`/projectmy/${this.project_id}/project-title`]);
+      this.router.navigate([`/projectmy/${this.project_id}`]);
     }
   }
 
@@ -190,7 +191,7 @@ export class ProjectMyLeftBottomComponent implements OnInit {
 
     const ProjectDocTitleData = {
       project_doc_title: this.newProjectDocTitle,
-      project_doc_pa_title_id: this.currentProjectDocTitleId || undefined
+      project_doc_title_pa_id: this.currentProjectDocTitleId || undefined
     };
 
     try {
