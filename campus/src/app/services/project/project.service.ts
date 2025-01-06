@@ -189,7 +189,21 @@ export class ProjectService {
 
   // 4
   // key_document
-
+  uploadMaterial(
+    projectId: number,
+    materialTitle: string, 
+    file: File
+  ): Observable<ApiResponse<ProjectDocResponseData>> {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('title', materialTitle);
+    const headers = this.getAuthHeaders();
+    return this.http.post<ApiResponse<ProjectDocResponseData>>(
+      `${this.projectApiUrl}/${projectId}/project-key-doc/register`,
+      formData,
+      { headers }
+    );
+  }
 
   // 5
   // feedback
