@@ -13,21 +13,26 @@ import {HttpClientModule} from "@angular/common/http";
 import { CommonModule } from '@angular/common';
 import{ExhibitionComponent} from "./page/exhibitionpage/exhibition/exhibition.component";
 import { CourseService } from './services/course/course.service'; // 서비스 경로 확인
-import { VideoCreateModalComponent } from './component/video-create-modal/video-create-modal.component';
-import { VideoStreamComponent } from './component/video-stream/video-stream.component';
+import { UploadProjectFileComponent } from './component/upload-project-file/upload-project-file.component';
 
 @NgModule({
-  declarations: [AppComponent, AttendanceModalComponent],
+  declarations: [
+    AppComponent, 
+    AttendanceModalComponent,
+    UploadProjectFileComponent
+  ],
 
-  imports: [BrowserModule, ReactiveFormsModule,
+  imports: [
+    BrowserModule, 
+    ReactiveFormsModule,
     IonicModule.forRoot(),
     HttpClientModule,
     AppRoutingModule,
     TopBarComponent,
     CommonModule,
     ExhibitionComponent,
-    FormsModule, SidemenuComponent
-
+    FormsModule, 
+    SidemenuComponent,
   ],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, CourseService ],
   bootstrap: [AppComponent],
