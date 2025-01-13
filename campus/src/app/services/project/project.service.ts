@@ -28,6 +28,13 @@ export class ProjectService {
       'Content-Type': 'application/json'
     };
   }
+
+  getFormDataAuthHeaders() {
+    const token = localStorage.getItem('token'); // 또는 다른 저장소에서 토큰 가져오기
+    return {
+      Authorization: `Bearer ${token}`
+    };
+  }
   // getFirstDocTitle, getDocTitle, createDocTitle, deleteDocTitle
   
   // 1
@@ -189,17 +196,32 @@ export class ProjectService {
 
   // 4
   // key_document
-  uploadMaterial(
+  uploadFile(
     projectId: number,
-    materialTitle: string, 
-    file: File
-  ): Observable<ApiResponse<ProjectDocResponseData>> {
+    keyDocTitle: string, 
+    file: File,
+    projectKeyDocCategory: string
+  ): Observable<ApiResponse<any>> {
+    projectId = Number(projectId);
+    keyDocTitle = String(keyDocTitle);
+    projectKeyDocCategory = String(projectKeyDocCategory);
     const formData = new FormData();
+    console.log(file);
+    console.log(keyDocTitle);
+    console.log(projectKeyDocCategory);
+    console.log(typeof(projectId)); 
+    
     formData.append('file', file);
-    formData.append('title', materialTitle);
-    const headers = this.getAuthHeaders();
-    return this.http.post<ApiResponse<ProjectDocResponseData>>(
-      `${this.projectApiUrl}/${projectId}/project-key-doc/register`,
+    formData.append('key_doc_title', keyDocTitle);
+    formData.append('key_doc_category', projectKeyDocCategory);
+    formData.forEach((value, key) => {
+      console.log(key, value); // 각 키와 값 출력
+    });
+    const headers = this.getFormDataAuthHeaders();  
+    console.log('headers:', headers);
+    console.log('url: ',`${this.projectApiUrl}/${projectId}/projectkeydoc/register`)
+    return this.http.post<ApiResponse<any>>(
+      `${this.projectApiUrl}/${projectId}/projectkeydoc/register`,
       formData,
       { headers }
     );
