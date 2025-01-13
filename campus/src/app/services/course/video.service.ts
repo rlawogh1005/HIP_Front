@@ -59,7 +59,10 @@ export class VideoService {
   // 영상 조회(PreSignedUrl GET)
   streamVideo(courseId: number, videoTopicId: number, videoId: number): Observable<ApiResponse<VideoResponseData>> {
     const headers = this.getAuthHeaders();
-    return this.http.get<ApiResponse<VideoResponseData>>(`${this.ApiUrl}/${courseId}/${videoTopicId}/video/${videoId}/stream`, { headers })
+    return this.http.get<ApiResponse<VideoResponseData>>(
+      `${this.ApiUrl}/${courseId}/${videoTopicId}/video/${videoId}/stream`, 
+      { headers }
+    )
   }
 
   STTVideo(courseId: number, videoTopicId: number, videoId: number): Observable<ApiResponse<VideoSummary>> {

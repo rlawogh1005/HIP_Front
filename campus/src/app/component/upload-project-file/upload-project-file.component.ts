@@ -1,11 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { AlertController, ModalController } from '@ionic/angular';
 import { VideoService } from 'src/app/services/course/video.service';
 import { ProjectService } from 'src/app/services/project/project.service';
 
-interface Material {
-  file: File;
-  title: string;
+interface ProjectKeyDoc {
+  key_doc_url: File;
+  key_doc_title: string;
+  key_doc_category: string;
 }
 
 @Component({
@@ -13,18 +14,17 @@ interface Material {
   templateUrl: './upload-project-file.component.html',
   styleUrls: ['./upload-project-file.component.scss'],
 })
-export class UploadProjectFileComponent  implements OnInit {
+export class UploadProjectFileComponent implements OnInit {
 
-  material: Material | null = null;
+  projectKeyDoc: ProjectKeyDoc | null = null;
   projectId: number = 0;
-  selectedFile: File | null = null;
-  materialTitle: string = '';
-
+  projectKeyDocTitle: string = '';
+  @Input() projectKeyDocCategory: string = ''; // @Input을 사용하여 props를 받음
+  
   constructor(
     private modalController: ModalController,
-    private videoService: VideoService,
     private projectService: ProjectService,
-    private alertController: AlertController // AlertController 주입
+    private alertController: AlertController
   ) {}
 
   refreshPage() {
@@ -32,7 +32,7 @@ export class UploadProjectFileComponent  implements OnInit {
   }
 
   // Alert 표시 메서드
-  async showAlert(header: string, message: string, refresh: boolean = false) {
+  async showAlert(header: string, message: string, shouldRefresh: boolean = false) {
     const alert = await this.alertController.create({
       header: header,
       message: message,
@@ -40,7 +40,7 @@ export class UploadProjectFileComponent  implements OnInit {
         {
           text: '확인',
           handler: () => {
-            if (refresh) {
+            if (shouldRefresh) {
               this.modalController.dismiss(true);
               this.refreshPage();
             }
@@ -62,25 +62,28 @@ export class UploadProjectFileComponent  implements OnInit {
   onFileSelected(event: Event) {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
-      this.selectedFile = input.files[0];
-      this.material = {
-        file: this.selectedFile,
-        title: this.materialTitle
+      const selectedFile = input.files[0];
+      this.projectKeyDoc = {
+        key_doc_url: selectedFile,
+        key_doc_title: this.projectKeyDocTitle,
+        key_doc_category: this.projectKeyDocCategory
       };
 
-      console.log('Selected file:', this.selectedFile);
+      console.log('Selected file:', selectedFile);
+      console.log('upload-project-file-component-prodoccate: ', this.projectKeyDocCategory);
     }
   }
 
   async onUpload() {
-    if (!this.selectedFile) {
+    console.log('upload-project-file-component-prodoccate: ', this.projectKeyDocCategory);
+    if (!this.projectKeyDoc || !this.projectKeyDoc.key_doc_url) {
       await this.showAlert('알림', '파일을 선택해주세요', false);
       return;
     }
 
     try {
       const response = await this.projectService
-        .uploadMaterial(this.projectId, this.materialTitle, this.selectedFile)
+        .uploadFile(this.projectId, this.projectKeyDoc.key_doc_title, this.projectKeyDoc.key_doc_url, this.projectKeyDocCategory)
         .toPromise();
         
       console.log('Upload success:', response);
