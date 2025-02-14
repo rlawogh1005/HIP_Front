@@ -8,6 +8,7 @@ import { ProjectDocRequestData } from "src/app/models/project/project_doc/projec
 import { ProjectDocResponseData } from "src/app/models/project/project_doc/project_doc-response.interface";
 import { ProjectDocTitleRequestData } from "src/app/models/project/project_doc_title/project_doc_title-request.interface";
 import { ProjectDocTitleResponseData } from "src/app/models/project/project_doc_title/project_doc_title-response.interface";
+import { ProjectKeyDocResponseData } from "src/app/models/project/project_key_doc/project_key_doc-response.interface";
 import { ProjectRegistrationRequestData } from "src/app/models/project/project_registration/project_registration-request.interface";
 import { ProjectRegistrationResponseData } from "src/app/models/project/project_registration/project_registration-response.interface";
 import { CreateProjectRequest, UpdateProjectRequest } from "src/app/models/project/projects/projects-request.interface";
@@ -26,6 +27,13 @@ export class ProjectService {
     return {
       Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json'
+    };
+  }
+
+  getFormDataAuthHeaders() {
+    const token = localStorage.getItem('token'); // 또는 다른 저장소에서 토큰 가져오기
+    return {
+      Authorization: `Bearer ${token}`
     };
   }
   // getFirstDocTitle, getDocTitle, createDocTitle, deleteDocTitle
@@ -189,22 +197,70 @@ export class ProjectService {
 
   // 4
   // key_document
-  uploadMaterial(
+  uploadFile(
     projectId: number,
-    materialTitle: string, 
-    file: File
-  ): Observable<ApiResponse<ProjectDocResponseData>> {
+    keyDocTitle: string, 
+    file: File,
+    projectKeyDocCategory: string
+  ): Observable<ApiResponse<any>> {
+    projectId = Number(projectId);
+    keyDocTitle = String(keyDocTitle);
+    projectKeyDocCategory = String(projectKeyDocCategory);
     const formData = new FormData();
+    console.log(file);
+    console.log(keyDocTitle);
+    console.log(projectKeyDocCategory);
+    console.log(typeof(projectId)); 
+    
     formData.append('file', file);
-    formData.append('title', materialTitle);
-    const headers = this.getAuthHeaders();
-    return this.http.post<ApiResponse<ProjectDocResponseData>>(
-      `${this.projectApiUrl}/${projectId}/project-key-doc/register`,
+    formData.append('key_doc_title', keyDocTitle);
+    formData.append('key_doc_category', projectKeyDocCategory);
+    formData.forEach((value, key) => {
+      console.log(key, value); // 각 키와 값 출력
+    });
+    const headers = this.getFormDataAuthHeaders();  
+    console.log('headers:', headers);
+    console.log('url: ',`${this.projectApiUrl}/${projectId}/projectkeydoc/register`)
+    return this.http.post<ApiResponse<any>>(
+      `${this.projectApiUrl}/${projectId}/projectkeydoc/register`,
       formData,
       { headers }
     );
   }
 
+  getOneProjectKeyDoc(
+    projectId: number,
+    projectKeyDocId: number
+  ): Observable<ApiResponse<ProjectKeyDocResponseData>> {
+    const headers = this.getAuthHeaders();
+    return this.http.get<ApiResponse<ProjectKeyDocResponseData>>(
+      `${this.projectApiUrl}/${projectId}/projectkeydoc/${projectKeyDocId}`,
+      { headers }
+    );
+  }
+
+  // any 수정 필요할수도 있음 
+  downloadProjectKeyDoc(
+    projectId: number,
+    projectKeyDocId: number
+  ): Observable<any> {
+    const headers = this.getAuthHeaders();
+    return this.http.get<any>(
+      `${this.projectApiUrl}/${projectId}/projectkeydoc/download/${projectKeyDocId}`,
+      { headers }
+    );
+  }
+
+  getAllProjectKeyDoc(
+    projectId: number,
+  ): Observable<any> {
+    const headers = this.getAuthHeaders();
+    console.log(`${this.projectApiUrl}/${projectId}/projectkeydoc`);
+    return this.http.get<any>(
+      `${this.projectApiUrl}/${projectId}/projectkeydoc`,
+      { headers }
+    );
+  }
   // 5
   // feedback
   createFeedback(

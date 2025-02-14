@@ -10,19 +10,26 @@
   <!-- 탭 메뉴 (프로젝트 개요서, 파일 선택하기 등) -->
   <ul class="tabs">
     <!-- 여기에서 프로젝트 개요서를 누르면 모달창이 떠서 프로젝트 개요서의 내용을 넣을 수 있게 한다.-->
-    <li class="tab-item active">프로젝트 개요서</li>
+    <li class="tab-item active" (click)="openUploadModal('프로젝트 개요서')">프로젝트 개요서</li>
     <!-- <div class = "introduction">{{ key_doc?.title }}</div> -->
     <!-- 여기에서 요구사항 정의서를 누르면 모달창이 떠서 요구사항 정의서의 내용을 넣을 수 있게 한다.-->
-    <li class="tab-item active">요구사항 정의서</li>
+    <li class="tab-item active" (click)="openUploadModal('요구사항 정의서')">요구사항 정의서</li>
     <!-- <div class = "requirements">{{ key_doc?.title }}</div> -->
     <!-- 여기에서 DB 설계 문서(ERD)를 누르면 모달창이 떠서 DB 설계서(ERD)의 내용을 넣을 수 있게 한다.-->
-    <li class="tab-item active">DB 설계서(ERD)</li>
+    <li class="tab-item active" (click)="openUploadModal('DB 설계서')">DB 설계서(ERD)</li>
     <!-- <div class = "erd">{{ key_doc?.title }}</div> -->
     <!-- 여기에서 API 명세서를 누르면 모달창이 떠서 API 명세서의 내용을 넣을 수 있게 한다.-->
-    <li class="tab-item active">API 명세서</li>
+    <li class="tab-item active" (click)="openUploadModal('API 명세서')">API 명세서</li>
     <!-- <div class = "api">{{ key_doc?.title }}</div> -->
     <!-- 여기에서 추가 중요 자료를 누르면 모달창이 떠서 추가 중요 자료의 내용을 여러 개 넣을 수 있게 한다.-->
-    <li class="tab-item active">추가 중요 자료</li>
+    <li class="tab-item active" (click)="openUploadModal('그 외 자료')">추가 중요 자료</li>
     <!-- <div class = "etc">{{ key_doc?.title }}</div> -->
   </ul>
+  <li 
+  *ngFor="let item of allItems" 
+  class="tab-item" 
+  (click)="KeyDocClickButton(item.key_doc_category, project_id, item.key_doc_id)">
+  {{ item.key_doc_category }}:
+  {{ item.key_doc_title }}
+  </li>
 </div>
