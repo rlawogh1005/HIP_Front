@@ -8,6 +8,7 @@ import { ProjectDocRequestData } from "src/app/models/project/project_doc/projec
 import { ProjectDocResponseData } from "src/app/models/project/project_doc/project_doc-response.interface";
 import { ProjectDocTitleRequestData } from "src/app/models/project/project_doc_title/project_doc_title-request.interface";
 import { ProjectDocTitleResponseData } from "src/app/models/project/project_doc_title/project_doc_title-response.interface";
+import { ProjectKeyDocResponseData } from "src/app/models/project/project_key_doc/project_key_doc-response.interface";
 import { ProjectRegistrationRequestData } from "src/app/models/project/project_registration/project_registration-request.interface";
 import { ProjectRegistrationResponseData } from "src/app/models/project/project_registration/project_registration-response.interface";
 import { CreateProjectRequest, UpdateProjectRequest } from "src/app/models/project/projects/projects-request.interface";
@@ -227,6 +228,39 @@ export class ProjectService {
     );
   }
 
+  getOneProjectKeyDoc(
+    projectId: number,
+    projectKeyDocId: number
+  ): Observable<ApiResponse<ProjectKeyDocResponseData>> {
+    const headers = this.getAuthHeaders();
+    return this.http.get<ApiResponse<ProjectKeyDocResponseData>>(
+      `${this.projectApiUrl}/${projectId}/projectkeydoc/${projectKeyDocId}`,
+      { headers }
+    );
+  }
+
+  // any 수정 필요할수도 있음 
+  downloadProjectKeyDoc(
+    projectId: number,
+    projectKeyDocId: number
+  ): Observable<any> {
+    const headers = this.getAuthHeaders();
+    return this.http.get<any>(
+      `${this.projectApiUrl}/${projectId}/projectkeydoc/download/${projectKeyDocId}`,
+      { headers }
+    );
+  }
+
+  getAllProjectKeyDoc(
+    projectId: number,
+  ): Observable<any> {
+    const headers = this.getAuthHeaders();
+    console.log(`${this.projectApiUrl}/${projectId}/projectkeydoc`);
+    return this.http.get<any>(
+      `${this.projectApiUrl}/${projectId}/projectkeydoc`,
+      { headers }
+    );
+  }
   // 5
   // feedback
   createFeedback(
